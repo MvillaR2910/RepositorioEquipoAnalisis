@@ -1,11 +1,11 @@
-def find_empty_cell(matrix):
+def celda_vacia(matrix):
     for row in range(3):
         for col in range(3):
             if matrix[row][col] == 0:
                 return (row, col)
     return None
 
-def is_safe(matrix, row, col, num, resultado):
+def esta_bien(matrix, row, col, num, resultado):
     # Verifica que no se repita el número en la fila
     if num in matrix[row]:
         return False
@@ -20,18 +20,18 @@ def is_safe(matrix, row, col, num, resultado):
     if row_sum == resultado or col_sum == resultado:
         return True
 
-def solve_sudoku(matrix, objetivo):
-    empty_cell = find_empty_cell(matrix)
+def resolver_sudoku(matrix, objetivo):
+    empty_cell = celda_vacia(matrix)
     if not empty_cell:
         return matrix  # Sudoku resuelto
 
     row, col = empty_cell
 
     for num in range(1, 10):
-        if is_safe(matrix, row, col, num, objetivo):
+        if esta_bien(matrix, row, col, num, objetivo):
             matrix[row][col] = num
 
-            if solve_sudoku(matrix, objetivo):
+            if resolver_sudoku(matrix, objetivo):
                 return matrix
 
             matrix[row][col] = 0  # Retrocede si no se encuentra una solución válida
@@ -52,12 +52,12 @@ sudoku2 = [
     [8, 0, 5]
 ]
 
-result1 = solve_sudoku(sudoku1, 14)
-result2 = solve_sudoku(sudoku2, 16)
+resultado1 = resolver_sudoku(sudoku1, 14)
+resultado2 = resolver_sudoku(sudoku2, 16)
 
-if result1:
+if resultado1:
     print("Solución del Sudoku 1:")
-    for row in result1:
+    for row in resultado1:
         print(row)
 else:
     print("No se encontró una solución para el Sudoku 1.")
@@ -66,9 +66,9 @@ print()
 print("/---/-----/-------/-------/---------/-------/")
 print()
 
-if result2:
+if resultado2:
     print("Solución del Sudoku 2:")
-    for row in result2:
+    for row in resultado2:
         print(row)
 else:
     print("No se encontró una solución para el Sudoku 2.")
